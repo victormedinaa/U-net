@@ -1,42 +1,42 @@
-# UNet para la Identificación de Imágenes Segmentadas
+# UNet for Segmented Image Identification
 
-## Descripción
-Este proyecto implementa una red neuronal convolucional U-Net para la segmentación semántica de imágenes, utilizando PyTorch. La red ha sido entrenada en un conjunto de datos de imágenes de monedas, con máscaras correspondientes para la segmentación.
+## Description
+This project implements a U-Net convolutional neural network for semantic image segmentation using PyTorch. The network is trained on a dataset of coin images with corresponding masks for segmentation.
 
-## Requisitos
+## Requirements
 
-Para ejecutar este proyecto, se necesitan las siguientes dependencias:
+To run this project, you need the following dependencies:
 
-- Python 3.x
-- PyTorch
-- torchvision
-- numpy
-- matplotlib
-- wandb (para el seguimiento del entrenamiento)
+- Python 3.x  
+- PyTorch  
+- torchvision  
+- numpy  
+- matplotlib  
+- wandb (for training tracking)  
 
-Puedes instalarlas utilizando el siguiente comando:
+You can install them using the following command:
 ```bash
 pip install torch torchvision numpy matplotlib wandb
 ```
 
+## Usage
 
-## Uso
-### 1. Montar Google Drive
-El proyecto está diseñado para ejecutarse en Google Colab, por lo que se necesita montar Google Drive:
+### 1. Mount Google Drive
+The project is designed to run on Google Colab, so Google Drive needs to be mounted:
 ```python
 from google.colab import drive
 drive.mount('/content/drive')
 ```
 
-### 2. Cargar Datos
-Asegúrate de tener las imágenes organizadas dentro de `ImagenesMonedas/` y luego ejecuta el código para cargar los datos y preprocesarlos.
+### 2. Load Data
+Ensure that images are organized inside `ImagenesMonedas/` and then execute the code to load and preprocess the data.
 
 ```python
 from torch.utils.data import Dataset, DataLoader
 from torchvision.io import read_image, ImageReadMode
 import torchvision.transforms as T
 
-class Dataset(Dataset):
+class CoinDataset(Dataset):
     def __init__(self, data_dir, label_dir):
         self.data_dir = data_dir
         self.label_dir = label_dir
@@ -55,8 +55,8 @@ class Dataset(Dataset):
         return image, mask
 ```
 
-### 3. Definir la Arquitectura de U-Net
-El modelo U-Net se define en `SegmentacionSemanticaVF.ipynb`, con capas de codificación, decodificación y clasificador final.
+### 3. Define the U-Net Architecture
+The U-Net model is defined in `SegmentacionSemanticaVF.ipynb`, including encoding, decoding, and final classifier layers.
 
 ```python
 import torch.nn as nn
@@ -64,18 +64,19 @@ import torch.nn as nn
 class UNet(nn.Module):
     def __init__(self):
         super().__init__()
-        # Definición de bloques de codificación y decodificación
+        # Define encoding and decoding blocks
 
     def forward(self, x):
-        # Implementación del paso hacia adelante
+        # Implement forward pass
         return x
 ```
 
-### 4. Entrenamiento
-El entrenamiento se realiza con la librería `wandb` para visualizar la pérdida durante las épocas.
+### 4. Training
+Training is performed using the `wandb` library to visualize the loss over epochs.
+
 ```python
 import wandb
-wandb.init(project="segmentacion-monedas")
+wandb.init(project="coin-segmentation")
 
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 criterion = nn.MSELoss()
@@ -90,11 +91,8 @@ for epoch in range(40):
         wandb.log({"loss": loss.item()})
 ```
 
-## Resultados
-Los resultados del entrenamiento y la segmentación pueden visualizarse en [Weights & Biases](https://wandb.ai/).
+## Results
+Training and segmentation results can be viewed on [Weights & Biases](https://wandb.ai/).
 
-## Contribución
-Si deseas contribuir, realiza un fork del repositorio, crea una rama y envía un pull request.
-
-
-
+## Contribution
+If you'd like to contribute, fork the repository, create a branch, and submit a pull request.
